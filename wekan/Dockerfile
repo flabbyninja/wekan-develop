@@ -1,10 +1,6 @@
 FROM flabbyninja/nodebase:latest
 
 ENV MONGO_URL='mongodb://wekan-mongo:27017/wekan'
-ENV ROOT_URL='https://example.com'
-ENV MAIL_URL='smtp://user:pass@mailserver.example.com:25/'
-ENV MAIL_FROM='wekan-admin@example.com'
-ENV PORT=8080
 
 RUN npm install node-gyp -g
 RUN npm install fibers@2.0 -g --unsafe
