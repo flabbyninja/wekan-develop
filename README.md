@@ -1,6 +1,8 @@
 # Overview
 
-Dockerfile definitions to build a [Wekan](https://wekan.github.io/) development environment.
+Dockerfile definitions to build a [Wekan](https://wekan.github.io/) development environment for updates to the codebase.
+
+This isn't intended as a replacement to the methods on the main site, just a helper to pull things into a structure that works for me across my dev machines. 
 
 # Structure
 
@@ -24,3 +26,14 @@ docker run --name wekan-mongo -d mongo
 docker run --privileged=true --link wekan-mongo:mongo -p 3000:3000 -it -v wekan-source:/wekan-source flabbyninja/wekandev:latest bash
 
 *TODO:* This is first version. Docker compose config will be provided to start this seamlessly
+
+## Local Development
+
+Start commands above use volume on *wekan-source* to hold data. Moving *root/repo* content here allows IDE usage on local machine, with meteor rebuild in container on change.
+
+## Starting App
+
+From within app directory, run *meteor*
+
+*NOTE:* If using root in container, use *--allow-superuser* flag
+
