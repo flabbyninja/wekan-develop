@@ -1,39 +1,39 @@
 # Overview
 
-Dockerfile definitions to build a [Wekan](https://wekan.github.io/) development environment for updates to the codebase.
+Dockerfile definitions to build a [Wekan](https://wekan.github.io/) local development environment.
 
-This isn't intended as a replacement to the methods on the main site, just a helper to pull things into a structure that works for me across my dev machines. 
+This isn't intended as a replacement to the instructions on the main Wekan site, it's just there to help me to pull things into a structure that works with the way I've set up my dev machines. 
 
 # Structure
 
 * **base** sets up Ubuntu with build and node 9.x dependencies
-* **wekandev** builds on top of base to add meteor, node-gyp and checkout and build of latest dev version of wekan
+* **wekandev** builds on top of base to add meteor, node-gyp and checkout and build of latest devel branch version of wekan
 
-wekandev contains built code under root/repos, following base pattern from wekan rebuild scripts for virtualbox.
+wekandev contains code built under `root/repos`, following base pattern from wekan the rebuild scripts for virtualbox.
 
 ## Starting Containers
 
-This is set up to use a separate MongoDB instance rather than built in meteor instance.
+This is set up to use a separate MongoDB instance rather than the built-in meteor Mongo instance.
 
-*Caution:* This is for development only. Data volume is inside container.
+*Caution:* This is for development only. The data volume is inside the container. Follow the prod setup guide from [Wekan](https://wekan.github.io/) wiki to use for prod.
 
 ### MongoDB 
 
-docker run --name wekan-mongo -d mongo
+`docker run --name wekan-mongo -d mongo`
 
 ### Base app
 
-docker run --privileged=true --link wekan-mongo:mongo -p 3000:3000 -it -v wekan-source:/wekan-source flabbyninja/wekandev:latest bash
+`docker run --privileged=true --link wekan-mongo:mongo -p 3000:3000 -it -v wekan-source:/wekan-source flabbyninja/wekandev:latest bash`
 
-*TODO:* This is first version. Docker compose config will be provided to start this seamlessly
+*TODO:* Docker compose config to start this seamlessly
 
 ## Local Development
 
-Start commands above use volume on *wekan-source* to hold data. Moving *root/repo* content here allows IDE usage on local machine, with meteor rebuild in container on change.
+The 'start commands' above use a volume on `wekan-source` to hold data. Moving the `root/repos` content here allows editing on an IDE on the local machine, with meteor rebuilding within the container when it detects changes.
 
 ## Starting App
 
-From within app directory, run *meteor*
+From within the app directory, run `meteor`
 
-*NOTE:* If using root in container, use *--allow-superuser* flag
+*NOTE:* If using root in container (not recommended), use `--allow-superuser` flag
 
