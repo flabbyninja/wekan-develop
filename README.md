@@ -29,7 +29,9 @@ This is set up to use a separate MongoDB instance rather than the built-in meteo
 
 ## Local Development
 
-The 'start commands' above use a volume on `wekan-source` to hold data. Moving the `root/repos` content here allows editing on an IDE on the local machine, with meteor rebuilding within the container when it detects changes.
+The 'start commands' above use a volume on `wekan-source` to hold data. Moving the `root/repos` content locally allows editing on an IDE on the local machine, with meteor rebuilding within the container when it detects changes.
+
+**NOTE:** Link the `.meteor` subdirectory back to the container filesystem on `/root/repos/wekan/.meteor` or the rebuilds can cause permission issues on the mounted Docker volume that requires restarts
 
 ## Starting App
 

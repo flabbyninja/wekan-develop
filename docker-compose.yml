@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  # base:
+  #   build: base
+  #   image: flabbyninja/nodebase
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+  wekan:
+    build: wekan
+    image: flabbyninja/wekandev
+    links:
+      - "mongo"
