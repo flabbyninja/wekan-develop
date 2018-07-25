@@ -1,9 +1,10 @@
 version: '3'
 
 services:
-  # base:
-  #   build: base
-  #   image: flabbyninja/nodebase
+  base:
+    build: base
+    image: flabbyninja/nodebase
+    entrypoint: echo "base service intentionally not startable"
   mongo:
     image: mongo
     restart: always
@@ -13,5 +14,7 @@ services:
   wekan:
     build: wekan
     image: flabbyninja/wekandev
+    depends_on:
+      - base
     links:
-      - "mongo"
+      - mongo:wekan-mongo
