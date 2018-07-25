@@ -1,10 +1,21 @@
 FROM flabbyninja/nodebase:latest
 
-ENV MONGO_URL='mongodb://wekan-mongo:27017/wekan'
-
 RUN npm install node-gyp -g
 RUN npm install fibers@2.0 -g --unsafe
-RUN curl -sL https://install.meteor.com | bash
+
+# meteor installer doesn't work with the default tar binary
+RUN apt-get install -y bsdtar \
+    && cp $(which tar) $(which tar)~ \
+    && ln -sf $(which bsdtar) $(which tar)
+
+# install Meteor forcing its progress
+RUN curl "https://install.meteor.com/?release=1.6.0.1" \
+    | sed 's/VERBOSITY="--silent"/VERBOSITY="--progress-bar"/' \
+    | sh
+
+# put back the original tar
+RUN mv $(which tar)~ $(which tar)
+
 RUN mkdir ~/repos
 RUN cd ~/repos && git clone https://github.com/wekan/wekan.git
 RUN cd ~/repos/wekan && git checkout devel && npm install
@@ -28,3 +39,8 @@ RUN cd ~/repos/wekan \
     && rm -rf node_modules \
     && meteor npm install \
     && meteor npm install bcrypt
+
+ENV MONGO_URL='mongodb://mongo:27017/wekan'
+
+CMD cd ~/repos/wekan \
+    && meteor run --allow-superuser
