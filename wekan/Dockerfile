@@ -40,7 +40,7 @@ RUN cd ~/repos/wekan \
     && meteor npm install \
     && meteor npm install bcrypt
 
-ENV MONGO_URL='mongodb://mongo:27017/wekan'
+ENV MONGO_URL='mongodb://wekan-mongo:27017/wekan'
 
 CMD cd ~/repos/wekan \
     && meteor run --allow-superuser
